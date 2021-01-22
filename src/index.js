@@ -4,11 +4,17 @@ const plus = document.querySelector(".plus"),
   minus = document.querySelector(".minus"),
   number = document.querySelector(".number");
 
-const countModifier = (state = 0) => {
-  console.log(state);
-  return state;
+const countModifier = (count = 0, action) => {
+  if (action.type === "PLUS") {
+    return count + 1;
+  } else if (action.type === "Minus") {
+    return count - 1;
+  }
+  return count;
 };
 
 const countStore = createStore(countModifier);
 
-console.log(countStore.getState());
+countStore.dispatch({ type: "PLUS" });
+
+console.log(countStore.getState()); // 1
