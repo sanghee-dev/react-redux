@@ -1,19 +1,17 @@
 import { createStore } from "redux";
-import { createAction } from "@reduxjs/toolkit";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
 const addToDo = createAction("ADD_TODO");
 const deleteToDo = createAction("DELETE_TODO");
 
-const reducer = (state = [], action) => {
-  switch (action.type) {
-    case addToDo.type:
-      return [{ text: action.payload, id: action.id }, ...state];
-    case deleteToDo.type:
-      return state.filter((toDo) => toDo.id !== action.payload);
-    default:
-      return state;
-  }
-};
+const reducer = createReducer([], {
+  [addToDo]: (state, action) => {
+    state.unshift({ text: action.payload, id: action.id });
+  },
+  [deleteToDo]: (state, action) => {
+    return state.filter((toDo) => toDo.id !== action.payload);
+  },
+});
 
 export const store = createStore(reducer);
 
